@@ -1,5 +1,6 @@
 import scrapy
 from pathlib import Path
+import zipfile
 
 
 class WorldBankSpider(scrapy.Spider):
@@ -27,24 +28,35 @@ class WorldBankSpider(scrapy.Spider):
         "GC.REV.XGRT.GD.ZS": "Revenue_percent_of_GDP"
     }
 
-    def download_data(self, response, file_name):
+    def save_and_extract_zip(self, response, file_name):
         """
-        Generic function to download data and save it to the appropriate directory.
+        Save the ZIP file and extract its contents.
         """
-        # Define the output directory (relative to your project structure)
-        output_dir = Path("data/raw/worldbank")
-        output_dir.mkdir(parents=True, exist_ok=True)
+        # Define the output directory for raw data
+        raw_dir = Path("data/raw/worldbank")
+        raw_dir.mkdir(parents=True, exist_ok=True)
 
-        # Save the dataset as a CSV file using the descriptive file name
-        file_path = output_dir / f"{file_name}.csv"
-        with open(file_path, "wb") as f:
+        # Save the ZIP file
+        zip_path = raw_dir / f"{file_name}.zip"
+        with open(zip_path, "wb") as f:
             f.write(response.body)
 
-        self.log(f"✅ File saved successfully at {file_path}")
+        self.log(f"✅ ZIP file saved at {zip_path}")
+
+        # Extract the contents of the ZIP file
+        extract_dir = raw_dir / file_name
+        extract_dir.mkdir(parents=True, exist_ok=True)
+
+        try:
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                zip_ref.extractall(extract_dir)
+            self.log(f"✅ Extracted contents to {extract_dir}")
+        except zipfile.BadZipFile:
+            self.log(f"❌ Failed to extract {zip_path}. Invalid ZIP file.")
 
     def parse(self, response):
         """
-        Parse each response and call the generic function to save data.
+        Parse each response and call the function to save and extract data.
         """
         # Extract indicator code from URL
         indicator_code = response.url.split("/")[-1].split("?")[0]
@@ -52,5 +64,5 @@ class WorldBankSpider(scrapy.Spider):
         # Get the descriptive file name from the mapping
         file_name = self.indicator_name_mapping.get(indicator_code, indicator_code)
 
-        # Call the generic function to handle saving the data
-        self.download_data(response, file_name)
+        # Save and extract the ZIP file
+        self.save_and_extract_zip(response, file_name)
