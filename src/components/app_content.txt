@@ -1,0 +1,50 @@
+\#markdown{
+### 1. COVID impact on Global Economy
+
+The COVID-19 pandemic, which began in 2020, has turned the world upside down. We will examine its impact on the global economy
+First, we can look at GDP trends to assess the impact of COVID-19.
+}
+
+\#graph{name=gdp_graph}
+
+\#markdown{
+    The graph illustrating the evolution of GDP growth clearly highlights the significant economic impact of the COVID pandemic.
+    In 2020 we observe a sharp decline in GDP growth.
+}
+
+\#line{}
+
+\#markdown{
+### 2. The causes of these economic changes
+
+Let's take a look at the causes of these economic changes.
+COVID has led to numerous restrictions that have impacted many businesses.
+
+}
+
+\#graph{name=merch_trade_graph}
+
+\#line{}
+
+\#markdown{
+### 3. Geopolitical Issues
+
+The COVID-19 pandemic not only caused a global health crisis but also exposed and intensified existing geopolitical tensions. 
+}
+
+\#graph{name=world_refugiee_graph}
+
+\#markdown{
+    We can observe big increase in the number of refugees from 2021, which means an intensification of conflicts.
+    Let's look at the countries most affected.
+}
+
+\#graph{name=highest_refugiee_growths}
+
+\#markdown{
+    It is difficult to draw a direct link between the COVID-19 crisis and the rise in the number of refugees from these countries.
+    Some global powers have taken advantage of the pandemic to consolidate their influence, as Russia with Ukraine.
+    Uruguay, like many other South American countries, was severely affected economically by the crisis.
+    In the cases of Belarus and Haiti, the pandemic was not the root cause of political tensions, but it further weakened an already fragile and unstable context.
+}
+

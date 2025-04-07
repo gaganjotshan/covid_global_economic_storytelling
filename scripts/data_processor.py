@@ -8,7 +8,7 @@ def load_and_transform(csv_file: str, start_year: int=2010, end_year: int=2023) 
     df = pd.read_csv(csv_file, skiprows=4)
     df = df[['Country Name', *map(str, range(start_year, end_year+1))]].rename(columns={'Country Name': 'country'})
     df = pd.melt(df, id_vars='country', var_name='year', value_name=indicator_name)
-    df = df[df['country'].isin(COUNTRIES)]
+    #df = df[df['country'].isin(COUNTRIES)]
     return df
 
 def process(directory: str) -> None:
@@ -21,7 +21,7 @@ def process(directory: str) -> None:
                         df = df.merge(load_and_transform(directory + '/' + dir + '/' + file_name), on=['country', 'year'])
                     else:
                         df = load_and_transform(directory + '/' + dir + '/' + file_name)
-    df.to_csv('data/processed/global_dataset.csv')
+    df.to_csv('data/processed/global_dataset.csv', index=False)
 
 if __name__ == "__main__":
     process("data/raw/worldbank/")
